@@ -2,23 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
 func main() {
+	router := chi.NewRouter()
 
-	router := gin.Default()
-
-	fmt.Println("Starting GO TMDB API service")
-
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"response": "Successful response!!"})
+	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Movie API Response")
 	})
 
-	err := router.Run(":8080")
-
+	err := http.ListenAndServe(":8080", router)
 	if err != nil {
 		log.Fatal(err)
 	}

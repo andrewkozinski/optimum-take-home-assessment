@@ -12,3 +12,9 @@ type Movie struct {
 		Id   int    `json:"id"`
 	} `json:"genres"`
 }
+
+// MovieResponse struct for storing movie caches and their http status
+type MovieResponse struct {
+	Movie      Movie
+	StatusCode int
+}

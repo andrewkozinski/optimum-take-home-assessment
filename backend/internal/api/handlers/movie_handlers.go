@@ -16,7 +16,7 @@ import (
 func MovieHandler(router *chi.Mux, client *tmdb.TMDBClient) {
 
 	//Caches for movies and trending movies can be added here in the future
-	movieCache := cache.NewCache[string, model.Movie]()
+	movieCache := cache.NewCache[string, model.MovieResponse]()
 	trendingCache := cache.NewCache[string, []model.Movie]()
 
 	/**
@@ -62,7 +62,7 @@ func MovieHandler(router *chi.Mux, client *tmdb.TMDBClient) {
 // @Success 200 {object} model.Movie
 // @Failure 500 {string} string "Failed to fetch movie details"
 // @Router /movie/{id} [get]
-func GetMovieDetails(movieCache *cache.Cache[string, model.Movie], client *tmdb.TMDBClient) http.HandlerFunc {
+func GetMovieDetails(movieCache *cache.Cache[string, model.MovieResponse], client *tmdb.TMDBClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id") //get the movie id
 
@@ -70,8 +70,8 @@ func GetMovieDetails(movieCache *cache.Cache[string, model.Movie], client *tmdb.
 		if cached, ok := movieCache.Get(id); ok {
 			fmt.Println("Serving from cache for movie ID:", id)
 			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_ = json.NewEncoder(w).Encode(cached)
+			w.WriteHeader(cached.StatusCode)
+			_ = json.NewEncoder(w).Encode(cached.Movie)
 			return
 		}
 
@@ -97,7 +97,10 @@ func GetMovieDetails(movieCache *cache.Cache[string, model.Movie], client *tmdb.
 		movieData.PosterPath = "https://image.tmdb.org/t/p/w500" + movieData.PosterPath
 
 		//Cache the movie data, set to expire after 10 minutes
-		movieCache.Set(id, movieData, 10*time.Minute)
+		movieCache.Set(id, model.MovieResponse{
+			Movie:      movieData,
+			StatusCode: movie.StatusCode,
+		}, 10*time.Minute)
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(movie.StatusCode)

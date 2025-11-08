@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import TrendingMovies from "@/components/ui/trending-movies-list";
 
 export default function Home() {
 
@@ -9,6 +10,7 @@ export default function Home() {
 
         <div className="m-auto">
           <p>Home page</p>
+          <TrendingMovies />
         </div>
 
       </main>

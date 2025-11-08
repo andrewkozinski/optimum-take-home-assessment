@@ -106,7 +106,7 @@ export default function MoviePage() {
                             <p>Genres: </p> 
                             {
                                 movie.genres?.map((genre) => (
-                                    <Badge key={genre.name} className="mr-2">{genre.name}</Badge>
+                                    <Badge key={genre.name} className="mr-2 hover:scale-103 hover:cursor-default">{genre.name}</Badge>
                                 ))
                             }
                         </div>

@@ -4,6 +4,7 @@ import { useParams } from "next/dist/client/components/navigation";
 import { Movie } from "@/types/movie";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge"
+import { fetchMovieDetails } from "@/lib/movies";
 
 export default function MoviePage() {
     //Get the movie ID from the URL params
@@ -15,8 +16,7 @@ export default function MoviePage() {
     useEffect(() => {
         async function fetchMovie() {
             console.log("Fetching movie with ID: ", id);
-            const response = await fetch(`/api/movies/${id}`);
-            const data = await response.json();
+            const data = await fetchMovieDetails(id?.toString() || "");
             setMovie(data);
         }
         fetchMovie();

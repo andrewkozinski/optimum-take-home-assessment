@@ -1,4 +1,5 @@
 import { Movie } from "@/types/movie";
+import { ApiError } from "@/types/error-message";
 import { setCache, getCache } from "./cache";
 
 export enum TimeFrame {
@@ -12,7 +13,7 @@ export enum TimeFrame {
  * @param data - JSON response
  */
 function throwError(response: Response, data: any) {
-    throw new Error(data.error ? `Failed to fetch movie details. With Status: ${response.status}. Error Message: ${data.error}` : 'Failed to fetch movie details');
+    throw new ApiError(data.error ? `${data.error}` : 'Failed to fetch movie details', response.status);
 }
 
 /**

@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { fetchTrendingMovies, TimeFrame, splitMovies } from "@/lib/movies";
 import { Movie } from "@/types/movie";
 import MovieCarousel from "./movie-carousel";
+import { ApiError } from "@/types/error-message";
 
 // This component displays a list of trending movies
 export default function TrendingMoviesList({ timeFrame }: { timeFrame: TimeFrame }) {
 
     const [movies, setMovies] = useState<Movie[]>([]);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<ApiError | null>(null);
 
     useEffect(() => {
         async function fetchTrending() {
@@ -19,7 +20,7 @@ export default function TrendingMoviesList({ timeFrame }: { timeFrame: TimeFrame
             catch (error) {
                 console.error("Error fetching trending movies: ", error);
                 setMovies([]);
-                setError((error as Error).message);
+                setError((error as ApiError));
             }
         }
         fetchTrending();
@@ -29,9 +30,9 @@ export default function TrendingMoviesList({ timeFrame }: { timeFrame: TimeFrame
 
     if(error) {
         return (
-            <div className="justify-center items-center flex flex-col">
-                <p>Error: {error}</p>
-                <p className="text-red-1000">Error loading trending movies. Please try again later.</p>
+            <div className="justify-center items-center flex flex-col space-y-4">
+                <h1 className="text-2xl text-red-600 sm:text-1xl">Error: "{error.message}" with Status: {error.statusCode}</h1>
+                <p className="text-sm">Error loading trending movies. Please try again later.</p>
             </div>
 
         )

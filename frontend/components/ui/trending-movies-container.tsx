@@ -17,7 +17,7 @@ export default function TrendingMoviesContainer() {
 
             {/* Div containing all the trending movie logic */}
             <div className="flex flex-col items-center space-y-4">
-                <div className="max-w-4xl mx-auto"> {/*Limit width */}
+                <div className="">
                     <TrendingMoviesList timeFrame={timeFrame} />
                 </div>
                 <div className="flex items-center">

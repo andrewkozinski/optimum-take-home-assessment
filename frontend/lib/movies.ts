@@ -1,3 +1,5 @@
+import { Movie } from "@/types/movie";
+
 export enum TimeFrame {
     DAY = "day",
     WEEK = "week"
@@ -42,4 +44,20 @@ export async function fetchMovieDetails(id: string) {
     }
 
     return data;
+}
+
+
+// Helper function to split movies into segments for each page of the carousel
+/**
+ * Splits an array of movies into chunks/pages of specified size
+ * @param arr Array of movies
+ * @param size Size of each chunk or 'page' of the split array
+ * @returns An array of movie arrays, each of size 'size'
+ */
+export const splitMovies = (arr: Movie[], size: number): Movie[][] => {
+    const result: Movie[][] = [];
+    for (let i = 0; i < arr.length; i += size) {
+        result.push(arr.slice(i, i + size));
+    }
+    return result;
 }

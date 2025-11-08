@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { fetchTrendingMovies, TimeFrame } from "@/lib/movies";
+import { fetchTrendingMovies, TimeFrame, splitMovies } from "@/lib/movies";
 import { Movie } from "@/types/movie";
 import Image from "next/image";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
@@ -27,14 +27,6 @@ export default function TrendingMoviesList({ timeFrame }: { timeFrame: TimeFrame
         fetchTrending();
     }, [timeFrame]);
 
-    // Helper function to split movies into segments for each page of the carousel
-    const splitMovies = (arr: Movie[], size: number): Movie[][] => {
-        const result: Movie[][] = [];
-        for (let i = 0; i < arr.length; i += size) {
-            result.push(arr.slice(i, i + size));
-        }
-        return result;
-    }
     const movieChunks = splitMovies(movies, 5);//Splits the movies into chunks of 5
 
     if(error) {
@@ -58,8 +50,8 @@ export default function TrendingMoviesList({ timeFrame }: { timeFrame: TimeFrame
                     {movieChunks.map((chunk, index) => (
                         <CarouselItem key={index}>
                             <div 
-                                className="grid gap-4 p-4 justify-center"
-                                style={{gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))'}}
+                                className="flex flex-wrap gap-4 p-4 justify-center items-center"
+                                //style={{gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))'}}
                             >
                                 {chunk.map((movie) => (
                                     <MovieCard key={movie.id} movie={movie} />

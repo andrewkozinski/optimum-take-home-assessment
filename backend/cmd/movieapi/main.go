@@ -7,9 +7,12 @@ import (
 	"net/http"
 	"os"
 
+	_ "backend/docs" // swag generated docs
+
 	"github.com/go-chi/chi/v5"
 	chimiddle "github.com/go-chi/chi/v5/middleware"
 	"github.com/joho/godotenv"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func main() {
@@ -28,6 +31,11 @@ func main() {
 	client := tmdb.NewTMDBClient(apiKey) //Create TMDB client that will be used to make HTTP requests
 
 	handlers.MovieHandler(router, client)
+
+	//Swagger route
+	router.Get("/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:8080/swagger/doc.json"), // Adjust port and path as needed
+	))
 
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {

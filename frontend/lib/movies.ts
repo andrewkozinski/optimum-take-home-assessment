@@ -18,3 +18,19 @@ export async function fetchTrendingMovies(period: TimeFrame) {
 
     return data;
 }
+
+/**
+ * Helper function to fetch movie details by ID
+ * @param id - TMDB API Movie ID
+ * @returns Details of the movie
+ */
+export async function fetchMovieDetails(id: string) {
+    const response = await fetch(`/api/movies/${id}`);
+    const data = await response.json();
+
+    if(!response.ok) {
+        throw new Error(data.error || 'Failed to fetch movie details');
+    }
+
+    return data;
+}

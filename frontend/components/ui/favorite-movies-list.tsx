@@ -23,7 +23,12 @@ export default function FavoriteMoviesList() {
     }, []);
 
     if(movies.length === 0) {
-        return <div>No movies favorited. Favorite a movie and it will appear here!</div>;
+        return (
+            <div className="justify-center items-center flex flex-col space-y-4">
+                <h1 className="text-2xl sm:text-1xl">No movies favorited.</h1>
+                <p className="text-sm">Favorite a movie and it will appear here!</p>
+            </div>
+        );
     }
 
     return (

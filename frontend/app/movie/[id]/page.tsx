@@ -5,6 +5,7 @@ import { Movie } from "@/types/movie";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge"
 import { fetchMovieDetails } from "@/lib/movies";
+import { Navbar } from "@/components/ui/navbar";
 
 export default function MoviePage() {
     //Get the movie ID from the URL params
@@ -29,19 +30,28 @@ export default function MoviePage() {
 
     if (error) {
         return (
-            <div className="justify-center items-center flex flex-col">
-                <p>Error: {error}</p>
-                <p className="text-red-400">Error loading movie details. Please try again later.</p>
-            </div>
+            <>
+                <Navbar />
+                <div className="justify-center items-center flex flex-col">
+                    <p>Error: {error}</p>
+                    <p className="text-red-400">Error loading movie details. Please try again later.</p>
+                </div>
+            </>
         );
     }
 
     if (!movie) {
-        return <div>Loading...</div>;
+        return (
+            <div>
+                <Navbar />
+                Loading...
+            </div>
+        );
     }
 
     return (
         <div className="">
+            <Navbar />
             <main className="">
                 <div className="m-auto">
                     <p>Movie Page</p>

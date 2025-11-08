@@ -13,7 +13,7 @@ export async function fetchTrendingMovies(period: TimeFrame) {
     const data = await response.json();
 
     if(!response.ok) {
-        throw new Error(data.error || 'Failed to fetch trending movies');
+        throw new Error(data.error ? `Failed to fetch trending movies. With Status: ${response.status}. Error Message: ${data.error}` : 'Failed to fetch trending movies');
     }
 
     return data;

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"backend/internal/api/handlers"
 	"log"
 	"net/http"
 
@@ -11,9 +11,11 @@ import (
 func main() {
 	router := chi.NewRouter()
 
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Movie API Response")
-	})
+	//router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	//	fmt.Fprintf(w, "Movie API Response")
+	//})
+
+	handlers.MovieHandler(router)
 
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {

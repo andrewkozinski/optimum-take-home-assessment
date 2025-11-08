@@ -10,6 +10,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { addFavoriteMovie, removeFavoriteMovie, isMovieFavorited } from "@/lib/favorites";
 import { StarIcon } from "lucide-react";
 import { ApiError } from "@/types/error-message";
+import { RotatingLines } from "react-loader-spinner";
 import Image from "next/image";
 
 export default function MoviePage() {
@@ -55,10 +56,19 @@ export default function MoviePage() {
 
     if (!movie) {
         return (
-            <div>
+            <>
                 <Navbar />
-                Loading...
-            </div>
+                <div className="flex h-screen items-center justify-center space-y-4 flex-col">
+                    <h1 className="text-2xl sm:text-1xl">Loading movie details...</h1>
+                    <RotatingLines
+                        strokeColor="grey"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="96"
+                        visible={true}
+                    />
+                </div>
+            </>
         );
     }
 

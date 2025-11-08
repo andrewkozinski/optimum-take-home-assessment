@@ -30,18 +30,22 @@ func MovieHandler(router *chi.Mux) {
 		}
 	})
 
-	router.Get("/movie/{id}", func(w http.ResponseWriter, r *http.Request) {
-		_, err := fmt.Fprintf(w, "Movie API Response for id: "+chi.URLParam(r, "id"))
-		if err != nil {
-			return
-		}
+	router.Route("/movie", func(r chi.Router) {
+		r.Get("/{id}", func(w http.ResponseWriter, r *http.Request) {
+			_, err := fmt.Fprintf(w, "Movie API Response for id: "+chi.URLParam(r, "id"))
+			if err != nil {
+				return
+			}
+		})
 	})
 
-	router.Get("/trending/movie/{day_or_week}", func(w http.ResponseWriter, r *http.Request) {
-		_, err := fmt.Fprintf(w, "Trending Movie API Response for day-or-week: "+chi.URLParam(r, "day_or_week"))
-		if err != nil {
-			return
-		}
+	router.Route("/trending/movie", func(r chi.Router) {
+		r.Get("/{day_or_week}", func(w http.ResponseWriter, r *http.Request) {
+			_, err := fmt.Fprintf(w, "Trending Movie API Response for day-or-week: "+chi.URLParam(r, "day_or_week"))
+			if err != nil {
+				return
+			}
+		})
 	})
 
 }

@@ -2,9 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchTrendingMovies, TimeFrame, splitMovies } from "@/lib/movies";
 import { Movie } from "@/types/movie";
-import Image from "next/image";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { MovieCard } from "./movie-card";
+import MovieCarousel from "./movie-carousel";
 
 // This component displays a list of trending movies
 export default function TrendingMoviesList({ timeFrame }: { timeFrame: TimeFrame }) {
@@ -27,7 +25,7 @@ export default function TrendingMoviesList({ timeFrame }: { timeFrame: TimeFrame
         fetchTrending();
     }, [timeFrame]);
 
-    const movieChunks = splitMovies(movies, 5);//Splits the movies into chunks of 5
+    //const movieChunks = splitMovies(movies, 5);//Splits the movies into chunks of 5
 
     if(error) {
         return (
@@ -45,24 +43,7 @@ export default function TrendingMoviesList({ timeFrame }: { timeFrame: TimeFrame
 
     return (
         <div className="">
-            <Carousel>
-                <CarouselContent>
-                    {movieChunks.map((chunk, index) => (
-                        <CarouselItem key={index}>
-                            <div 
-                                className="flex flex-wrap gap-4 p-4 justify-center items-center"
-                                //style={{gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))'}}
-                            >
-                                {chunk.map((movie) => (
-                                    <MovieCard key={movie.id} movie={movie} />
-                                ))}
-                            </div>
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
+            <MovieCarousel movies={movies} />
         </div>
     );
 }

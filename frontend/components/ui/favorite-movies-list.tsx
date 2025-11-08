@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { getFavoriteMovies } from "@/lib/favorites";
 import { fetchMovieDetails, splitMovies } from "@/lib/movies";
 import { Movie } from "@/types/movie";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext,CarouselPrevious } from "./carousel";
-import { MovieCard } from "./movie-card";
+import MovieCarousel from "./movie-carousel";
 
 
 export default function FavoriteMoviesList() {
@@ -27,30 +26,9 @@ export default function FavoriteMoviesList() {
         return <div>No movies favorited. Favorite a movie and it will appear here!</div>;
     }
 
-    const movieChunks = splitMovies(movies, 5);//Splits the movies into chunks of 3
-
     return (
         <div>
-
-            <Carousel>
-                <CarouselContent>
-                    {movieChunks.map((chunk, index) => (
-                        <CarouselItem key={index}>
-                            <div 
-                                className="flex flex-wrap gap-4 p-4 justify-center items-center"
-                                //style={{gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))'}}
-                            >
-                                {chunk.map((movie) => (
-                                    <MovieCard key={movie.id} movie={movie} />
-                                ))}
-                            </div>
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
-
+            <MovieCarousel movies={movies} />
         </div>
     );
 }

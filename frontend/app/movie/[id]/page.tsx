@@ -49,7 +49,7 @@ export default function MoviePage() {
                 <Navbar />
                 <div className="justify-center items-center flex flex-col space-y-4">
                     <h1 className="text-2xl text-red-600 sm:text-1xl">Error: "{error.message}" with Status: {error.statusCode}</h1>
-                    <p className="text-sm">Error loading trending movies. Please try again later.</p>
+                    <p className="text-sm">Error loading movie details for movie with id {id}. Please try again later.</p>
                 </div>
             </>
         );

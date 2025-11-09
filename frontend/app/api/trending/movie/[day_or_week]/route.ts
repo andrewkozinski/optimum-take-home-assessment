@@ -1,5 +1,3 @@
-import { clear } from "console";
-
 export async function GET(request: Request, { params }: { params: { day_or_week: string } }) {
     const body = await params;//throws an error without awaiting params first
     const day_or_week = body.day_or_week;

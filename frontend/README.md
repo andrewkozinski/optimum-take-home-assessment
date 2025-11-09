@@ -18,3 +18,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 
 This project makes use of the [ShadCN](https://ui.shadcn.com/) component library for some of the design and the react-loading-spinner library for loading state.
+
+The frontend uses Jest for unit testing. To run unit tests, simply do `npx jest` in the terminal.

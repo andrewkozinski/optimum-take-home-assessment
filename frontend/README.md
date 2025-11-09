@@ -17,4 +17,4 @@ bun dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
-This project makes use of the [ShadCN](https://ui.shadcn.com/) component library for some of the design.
+This project makes use of the [ShadCN](https://ui.shadcn.com/) component library for some of the design and the react-loading-spinner library for loading state.

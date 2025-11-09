@@ -28,6 +28,7 @@ export default function MoviePage() {
                 console.log("Fetching movie with ID: ", id);
                 const data = await fetchMovieDetails(id?.toString() || "");
                 setMovie(data);
+                console.log("Fetched movie data: ", data);
             } catch (err) {
                 setError((err as ApiError));
             }
@@ -110,6 +111,7 @@ export default function MoviePage() {
                     <div>
                         <h1 className="text-3xl font-bold">{movie.title}</h1>
                         <p className="mt-4"><span className="font-bold">Release Date:</span> {movie.release_date}</p>
+                        <p className="mt-4"><span className="font-bold">Runtime:</span> {movie.runtime} minutes</p>
                         <div className="mt-4">
                             <p><span className="font-bold">Overview:</span></p>
                             <p className="">{movie.overview}</p>
@@ -122,7 +124,8 @@ export default function MoviePage() {
                                     <Badge key={genre.name} className="mr-2 hover:scale-103 hover:cursor-default">{genre.name}</Badge>
                                 ))
                             }
-                        </div>
+                        </div>                    
+
                     </div>
                 </div>
             </main>

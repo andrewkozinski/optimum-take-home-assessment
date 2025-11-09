@@ -8,7 +8,6 @@ export default function SettingsPage() {
         <div className="flex min-h-screen">
             <main className="flex flex-col min-h-screen w-full">
                 <Navbar />
-                {/* Center horizontal */}
                 <div className=" flex justify-center mt-10 flex-col items-center">
                     <h1 className="lg:text-4xl md:text-3xl sm:text-2xl mb-6">Settings</h1>
 

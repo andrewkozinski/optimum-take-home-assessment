@@ -28,6 +28,7 @@ export default function MoviePage() {
                 console.log("Fetching movie with ID: ", id);
                 const data = await fetchMovieDetails(id?.toString() || "");
                 setMovie(data);
+                console.log("Fetched movie data: ", data);
             } catch (err) {
                 setError((err as ApiError));
             }
@@ -79,7 +80,7 @@ export default function MoviePage() {
                 <div className="m-8 space-y-4 flex flex-col lg:flex-row lg:space-x-8 lg:space-y-0">
                     
                     {/* Image left side */}
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center flex-shrink-0">
                         <Image
                             width={300}
                             height={450}
@@ -109,17 +110,22 @@ export default function MoviePage() {
                     {/* Movie details right side */}
                     <div>
                         <h1 className="text-3xl font-bold">{movie.title}</h1>
-                        <p className="mt-4">Release Date: {movie.release_date}</p>
-                        <p className="mt-4">{movie.overview}</p>
+                        <p className="mt-4"><span className="font-bold">Release Date:</span> {movie.release_date}</p>
+                        <p className="mt-4"><span className="font-bold">Runtime:</span> {movie.runtime} minutes</p>
+                        <div className="mt-4">
+                            <p><span className="font-bold">Overview:</span></p>
+                            <p className="">{movie.overview}</p>
+                        </div>
 
                         <div className="mt-4">
-                            <p>Genres: </p> 
+                            <p><span className="font-bold">Genres:</span></p> 
                             {
                                 movie.genres?.map((genre) => (
                                     <Badge key={genre.name} className="mr-2 hover:scale-103 hover:cursor-default">{genre.name}</Badge>
                                 ))
                             }
-                        </div>
+                        </div>                    
+
                     </div>
                 </div>
             </main>

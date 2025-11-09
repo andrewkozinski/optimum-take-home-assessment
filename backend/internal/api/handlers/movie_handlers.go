@@ -6,6 +6,7 @@ import (
 	"backend/internal/cache"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 
@@ -82,7 +83,9 @@ func GetMovieDetails(movieCache *cache.Cache[string, model.MovieResponse], clien
 		}
 
 		//Once done with the response body, close it
-		defer movie.Body.Close()
+		defer func(Body io.ReadCloser) {
+			_ = Body.Close()
+		}(movie.Body)
 
 		var movieData model.Movie //Movie struct to hold the decoded data
 		//Actually decode the data into the struct
@@ -94,7 +97,7 @@ func GetMovieDetails(movieCache *cache.Cache[string, model.MovieResponse], clien
 		}
 
 		//Before sending the response, properly format the PosterPath (docs for reference: https://developer.themoviedb.org/docs/image-basics)
-		movieData.PosterPath = "https://image.tmdb.org/t/p/w500" + movieData.PosterPath
+		movieData.PosterPath = FormatPosterPath(movieData.PosterPath)
 
 		//Do the same for each ProductionCompany logo path
 		for i := range movieData.ProductionCompanies {
@@ -111,6 +114,7 @@ func GetMovieDetails(movieCache *cache.Cache[string, model.MovieResponse], clien
 		}, 10*time.Minute)
 
 		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Cache-Control", "public, max-age=60")
 		w.WriteHeader(movie.StatusCode)
 		_ = json.NewEncoder(w).Encode(movieData)
 	}
@@ -145,7 +149,9 @@ func GetTrendingMovies(trendingCache *cache.Cache[string, []model.Movie], client
 		}
 
 		//Once done with the response body, close it
-		defer resp.Body.Close()
+		defer func(Body io.ReadCloser) {
+			_ = Body.Close()
+		}(resp.Body)
 
 		//Map results array in the response to a Slice of Movie structs
 		var result struct {
@@ -160,14 +166,20 @@ func GetTrendingMovies(trendingCache *cache.Cache[string, []model.Movie], client
 
 		//Before sending the response, properly format the PosterPath for each movie
 		for i := range result.Results {
-			result.Results[i].PosterPath = "https://image.tmdb.org/t/p/w500" + result.Results[i].PosterPath
+			result.Results[i].PosterPath = FormatPosterPath(result.Results[i].PosterPath)
 		}
 
 		//Cache the trending movies data, set to expire after 5 minutes
 		trendingCache.Set(timeFrame, result.Results, 5*time.Minute)
 
 		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Cache-Control", "public, max-age=60")
 		w.WriteHeader(resp.StatusCode)
 		_ = json.NewEncoder(w).Encode(result.Results)
 	}
+}
+
+// FormatPosterPath properly formats the PosterPath to be an image URL that's usable by the frontend
+func FormatPosterPath(path string) string {
+	return "https://image.tmdb.org/t/p/w500" + path
 }

@@ -6,6 +6,7 @@ import (
 	"backend/internal/cache"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 
@@ -82,7 +83,9 @@ func GetMovieDetails(movieCache *cache.Cache[string, model.MovieResponse], clien
 		}
 
 		//Once done with the response body, close it
-		defer movie.Body.Close()
+		defer func(Body io.ReadCloser) {
+			_ = Body.Close()
+		}(movie.Body)
 
 		var movieData model.Movie //Movie struct to hold the decoded data
 		//Actually decode the data into the struct
@@ -145,7 +148,9 @@ func GetTrendingMovies(trendingCache *cache.Cache[string, []model.Movie], client
 		}
 
 		//Once done with the response body, close it
-		defer resp.Body.Close()
+		defer func(Body io.ReadCloser) {
+			_ = Body.Close()
+		}(resp.Body)
 
 		//Map results array in the response to a Slice of Movie structs
 		var result struct {

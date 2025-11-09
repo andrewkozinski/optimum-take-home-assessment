@@ -109,11 +109,14 @@ export default function MoviePage() {
                     {/* Movie details right side */}
                     <div>
                         <h1 className="text-3xl font-bold">{movie.title}</h1>
-                        <p className="mt-4">Release Date: {movie.release_date}</p>
-                        <p className="mt-4">{movie.overview}</p>
+                        <p className="mt-4"><span className="font-bold">Release Date:</span> {movie.release_date}</p>
+                        <div className="mt-4">
+                            <p><span className="font-bold">Overview:</span></p>
+                            <p className="">{movie.overview}</p>
+                        </div>
 
                         <div className="mt-4">
-                            <p>Genres: </p> 
+                            <p><span className="font-bold">Genres:</span></p> 
                             {
                                 movie.genres?.map((genre) => (
                                     <Badge key={genre.name} className="mr-2 hover:scale-103 hover:cursor-default">{genre.name}</Badge>

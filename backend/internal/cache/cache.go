@@ -6,21 +6,21 @@ import (
 )
 
 // CacheItem is the type that will be cached in the Cache map, uses generics to allow more than just one type to be cached
-type CacheItem[T any] struct {
+type Item[T any] struct {
 	value      T
 	expiration time.Time //Time
 }
 
 // Cache is a map that handles the in memory caching. Keys must be Comparable and Values are of type CacheItem
 type Cache[K comparable, T any] struct {
-	data map[K]CacheItem[T] //Keys are Comparable, CacheItem can be any type
-	mu   sync.RWMutex       //mutex for r/w protection
+	data map[K]Item[T] //Keys are Comparable, CacheItem can be any type
+	mu   sync.RWMutex  //mutex for r/w protection
 }
 
 // NewCache initializes a new Cache instance
 func NewCache[K comparable, T any]() *Cache[K, T] {
 	return &Cache[K, T]{
-		data: make(map[K]CacheItem[T]),
+		data: make(map[K]Item[T]),
 	}
 }
 
@@ -29,7 +29,7 @@ func (c *Cache[K, T]) Set(key K, value T, ttl time.Duration) {
 	c.mu.Lock()         //Lock the mutex first
 	defer c.mu.Unlock() //Unlock last
 
-	c.data[key] = CacheItem[T]{ //set the key/value pair
+	c.data[key] = Item[T]{ //set the key/value pair
 		value:      value,
 		expiration: time.Now().Add(ttl),
 	}
@@ -70,5 +70,5 @@ func (c *Cache[K, T]) Delete(key K) {
 func (c *Cache[K, T]) Clear() {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	c.data = make(map[K]CacheItem[T])
+	c.data = make(map[K]Item[T])
 }

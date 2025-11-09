@@ -50,16 +50,3 @@ func (client *TMDBClient) GetMovieDetails(movieID string) (*http.Response, error
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", client.APIKey))
 	return client.HTTPClient.Do(req)
 }
-
-//Optional functions below:
-
-// GetCredits fetches credits for a specific movie by its ID
-func (client *TMDBClient) GetCredits() (*http.Response, error) {
-	url := fmt.Sprintf("%s/credits", baseURL)
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", client.APIKey))
-	return client.HTTPClient.Do(req)
-}

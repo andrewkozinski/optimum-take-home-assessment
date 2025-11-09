@@ -8,4 +8,8 @@ module.exports = {
   transform: {
     ...tsJestTransformCfg,
   },
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/$1",
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+  },
 };

@@ -79,7 +79,7 @@ export default function MoviePage() {
                 <div className="m-8 space-y-4 flex flex-col lg:flex-row lg:space-x-8 lg:space-y-0">
                     
                     {/* Image left side */}
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center flex-shrink-0">
                         <Image
                             width={300}
                             height={450}

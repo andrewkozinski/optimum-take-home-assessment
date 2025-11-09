@@ -114,6 +114,7 @@ func GetMovieDetails(movieCache *cache.Cache[string, model.MovieResponse], clien
 		}, 10*time.Minute)
 
 		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Cache-Control", "max-age=60")
 		w.WriteHeader(movie.StatusCode)
 		_ = json.NewEncoder(w).Encode(movieData)
 	}
@@ -172,6 +173,7 @@ func GetTrendingMovies(trendingCache *cache.Cache[string, []model.Movie], client
 		trendingCache.Set(timeFrame, result.Results, 5*time.Minute)
 
 		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Cache-Control", "max-age=60")
 		w.WriteHeader(resp.StatusCode)
 		_ = json.NewEncoder(w).Encode(result.Results)
 	}

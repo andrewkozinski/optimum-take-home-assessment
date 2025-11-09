@@ -10,6 +10,7 @@ export const Navbar = () => {
             </Link>
             <Link href="/" className="text-white text-sm ml-4 hover:text-gray-300">Home</Link>
             <Link href="/favorites" className="text-white text-sm ml-4 hover:text-gray-300">Favorites</Link>
+            <Link href="/settings" className="text-white text-sm ml-4 hover:text-gray-300">Settings</Link>
         </nav>
     );
 }
